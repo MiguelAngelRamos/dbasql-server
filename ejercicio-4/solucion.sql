@@ -34,3 +34,15 @@ WITH ROLLBACK IMMEDIATE; -- Expulsa a todos los usuarios y cancela sus transacci
 GO
 
 DROP DATABASE AcademiaEjemploDB; -- Elimina la base de datos (simula un fallo)
+
+-- RESTORE HEADERONLY sirve para mostrar todos los respaldos (FULL, DIFERENCIAL, LOG, etc.) que están guardados dentro del archivo .bak.
+RESTORE HEADERONLY 
+FROM DISK = 'C:\Backups\AcademiaEjemploDB_Estrategia3.bak'; -- Indica el archivo de backup que quieres inspeccionar
+GO
+
+-- Full
+RESTORE DATABASE AcademiaEjemploDB -- Restaura la base de datos desde el backup completo
+FROM DISK = 'C:\Backups\AcademiaEjemploDB_Estrategia3.bak' -- Ruta del backup
+WITH FILE = 1, -- Indica que use el primer segmento del archivo (el backup completo)
+     NORECOVERY; -- Deja la base en estado "restaurando", lista para aplicar más backups (no permite conexiones aún)
+GO
