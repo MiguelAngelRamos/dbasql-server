@@ -46,3 +46,14 @@ FROM DISK = 'C:\Backups\AcademiaEjemploDB_Estrategia3.bak' -- Ruta del backup
 WITH FILE = 1, -- Indica que use el primer segmento del archivo (el backup completo)
      NORECOVERY; -- Deja la base en estado "restaurando", lista para aplicar más backups (no permite conexiones aún)
 GO
+
+RESTORE LOG AcademiaEjemploDB -- Restaura el primer backup de log
+FROM DISK = 'C:\Backups\AcademiaEjemploDB_Estrategia3.bak' -- Mismo archivo de backup
+WITH FILE = 2, -- Usa el segundo segmento (primer backup de log)
+     NORECOVERY; -- Sigue en modo "restaurando" para poder aplicar más logs después
+GO
+
+-- Verificar datos restaurados
+USE AcademiaEjemploDB; -- Cambia a la base restaurada
+SELECT * FROM Inscripciones; -- Muestra los datos para verificar que todo se recuperó bien
+GO
